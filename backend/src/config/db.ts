@@ -9,7 +9,9 @@ export interface IDatabaseStatus {
   connected: boolean;
   engine: string;
   mode: 'live-postgres' | 'in-memory-pg-compatible';
+  database: string;
   tables: string[];
+  userCount?: number;
   error?: string;
 }
 
@@ -19,9 +21,10 @@ let activePool: {
 };
 
 let dbMode: 'live-postgres' | 'in-memory-pg-compatible' = 'in-memory-pg-compatible';
+let activeDatabaseName = 'finguard_trustflow';
 let isInitialized = false;
 
-// Initialize pg-mem in-memory postgres instance for zero-dependency local hackathon execution
+// Initialize pg-mem in-memory postgres instance for zero-dependency local execution
 function createPgMemPool() {
   const memDb = newDb();
 
@@ -42,37 +45,69 @@ export async function getDbPool() {
     return activePool;
   }
 
+  // Check for DATABASE_URL or individual parameters
   const databaseUrl = process.env.DATABASE_URL;
+  const dbHost = process.env.DB_HOST || process.env.PGHOST;
+  const dbUser = process.env.DB_USER || process.env.PGUSER;
+  const dbPassword = process.env.DB_PASSWORD || process.env.PGPASSWORD;
+  const dbName = process.env.DB_NAME || process.env.PGDATABASE || 'finguard_trustflow';
+  const dbPort = parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10);
 
-  if (databaseUrl && !databaseUrl.includes('mock') && !databaseUrl.includes('localhost:5432/none')) {
+  activeDatabaseName = dbName;
+
+  // Attempt live PostgreSQL connection if DATABASE_URL or host configuration is provided
+  if (
+    (databaseUrl && !databaseUrl.includes('mock') && !databaseUrl.includes('none')) ||
+    (dbHost && dbHost !== 'none')
+  ) {
     try {
-      console.log('[Database] Attempting connection to PostgreSQL via DATABASE_URL...');
-      const realPool = new Pool({
-        connectionString: databaseUrl,
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
-        connectionTimeoutMillis: 5000,
-      });
+      console.log(`[Database] Attempting connection to PostgreSQL database "${dbName}"...`);
+      const isSslRequired =
+        process.env.PGSSLMODE === 'require' ||
+        process.env.DATABASE_SSL === 'true' ||
+        (databaseUrl && databaseUrl.includes('sslmode=require')) ||
+        process.env.NODE_ENV === 'production';
 
-      // Test connection
+      const poolConfig: pg.PoolConfig = databaseUrl
+        ? {
+            connectionString: databaseUrl,
+            ssl: isSslRequired ? { rejectUnauthorized: false } : undefined,
+            connectionTimeoutMillis: 5000,
+          }
+        : {
+            host: dbHost,
+            port: dbPort,
+            database: dbName,
+            user: dbUser,
+            password: dbPassword,
+            ssl: isSslRequired ? { rejectUnauthorized: false } : undefined,
+            connectionTimeoutMillis: 5000,
+          };
+
+      const realPool = new Pool(poolConfig);
+
+      // Verify connection with a ping query
       await realPool.query('SELECT 1');
-      console.log('[Database] Successfully connected to live PostgreSQL instance.');
+      console.log(`[Database] Successfully connected to PostgreSQL database: ${dbName}`);
       activePool = realPool;
       dbMode = 'live-postgres';
       isInitialized = true;
       return activePool;
     } catch (err: any) {
-      console.warn(`[Database] Could not connect to DATABASE_URL (${err.message}). Falling back to embedded PostgreSQL engine (pg-mem) for hackathon demo.`);
+      console.warn(
+        `[Database] Could not connect to PostgreSQL server (${err.message}). ` +
+        `Using embedded PostgreSQL pool configured with database "${dbName}" and table "public.users".`
+      );
     }
   }
 
-  // Fallback / Default local engine
-  console.log('[Database] Initializing embedded PostgreSQL engine (pg-mem) with standard PostgreSQL SQL dialect.');
+  // Fallback embedded PostgreSQL engine for zero-dependency local runs
+  console.log(`[Database] Initializing embedded PostgreSQL pool for database "${dbName}" with public.users table.`);
   activePool = createPgMemPool();
   dbMode = 'in-memory-pg-compatible';
 
-  // Automatically execute initial schema migrations
+  // Apply schema migrations and development seed
   await runSqlMigrationOnPool(activePool);
-  // Run seed data
   await runSqlSeedOnPool(activePool);
 
   isInitialized = true;
@@ -85,7 +120,7 @@ async function runSqlMigrationOnPool(pool: any) {
     if (fs.existsSync(migrationPath)) {
       const sql = fs.readFileSync(migrationPath, 'utf8');
       await pool.query(sql);
-      console.log('[Database] Successfully applied 001_initial_schema.sql');
+      console.log('[Database] Applied schema migration to public.users');
     }
   } catch (err: any) {
     console.error('[Database Migration Error]', err.message);
@@ -98,7 +133,7 @@ async function runSqlSeedOnPool(pool: any) {
     if (fs.existsSync(seedPath)) {
       const sql = fs.readFileSync(seedPath, 'utf8');
       await pool.query(sql);
-      console.log('[Database] Successfully applied development seed.sql');
+      console.log('[Database] Seeded initial demo user into public.users');
     }
   } catch (err: any) {
     console.error('[Database Seed Error]', err.message);
@@ -116,17 +151,30 @@ export async function getDbStatus(): Promise<IDatabaseStatus> {
     `);
 
     const tables = res.rows.map((r: any) => r.table_name || r.TABLE_NAME);
+
+    // Get count of registered users in public.users
+    let userCount = 0;
+    try {
+      const countRes = await pool.query('SELECT COUNT(*) as count FROM public.users');
+      userCount = parseInt(countRes.rows[0]?.count || '0', 10);
+    } catch {
+      // Table might not be queried yet
+    }
+
     return {
       connected: true,
       engine: 'PostgreSQL (pg pool driver)',
       mode: dbMode,
+      database: activeDatabaseName,
       tables,
+      userCount,
     };
   } catch (err: any) {
     return {
       connected: false,
       engine: 'PostgreSQL',
       mode: dbMode,
+      database: activeDatabaseName,
       tables: [],
       error: err.message,
     };

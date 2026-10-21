@@ -41,6 +41,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
     try {
       setLoading(true);
       await register({
+        full_name: name.trim(),
         name: name.trim(),
         email: email.trim().toLowerCase(),
         password,

@@ -6,17 +6,26 @@ export class HealthController {
   public static async getSystemHealth(req: Request, res: Response): Promise<void> {
     const dbStatus = await getDbStatus();
     const envWarnings = validateEnvironment();
+    const isConnected = Boolean(dbStatus.connected);
 
-    res.json({
-      status: 'UP',
+    res.status(isConnected ? 200 : 503).json({
+      status: isConnected ? 'UP' : 'DEGRADED',
+      database_connected: isConnected,
+      database: {
+        connected: isConnected,
+        database_name: dbStatus.database,
+        engine: dbStatus.engine,
+        mode: dbStatus.mode,
+        user_count: dbStatus.userCount,
+      },
       application: 'FinGuard – TrustFlow',
-      version: '1.0.0-hackathon',
+      version: '1.0.0',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: config.nodeEnv,
       services: {
         api: 'HEALTHY',
-        database: dbStatus.connected ? 'HEALTHY' : 'DEGRADED',
+        database: isConnected ? 'HEALTHY' : 'DISCONNECTED',
         blockchain: 'READY (Polygon Amoy Testnet)',
       },
       warnings: envWarnings,

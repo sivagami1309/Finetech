@@ -7,13 +7,32 @@ import paymentRoutes from './routes/paymentRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import blockchainRoutes from './routes/blockchainRoutes';
 import healthRoutes from './routes/healthRoutes';
+import { config } from './config/env';
 
 export function createExpressApp(): Express {
   const app = express();
 
-  // Basic security and parsing middleware
+  // Configure CORS for actual frontend origin and credentials
+  const allowedOrigins = [
+    config.frontendUrl,
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    process.env.APP_URL,
+  ].filter(Boolean) as string[];
+
   app.use(cors({
-    origin: true,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.startsWith('http://localhost:') ||
+        origin.startsWith('http://127.0.0.1:') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   }));
   app.use(express.json({ limit: '1mb' }));

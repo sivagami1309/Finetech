@@ -63,6 +63,7 @@ export interface Transaction {
   updated_at: string;
   client_name?: string;
   client_email?: string;
+  client_country?: string;
   project_title?: string;
   invoice_number?: string;
   project_description?: string;
