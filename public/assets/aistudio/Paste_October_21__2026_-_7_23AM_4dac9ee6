@@ -1,0 +1,1038 @@
+# PROJECT: FINGUARD – TRUSTFLOW
+
+## 1. YOUR ROLE
+
+Act as a senior full-stack software architect, fintech engineer, React developer, Node.js backend engineer, PostgreSQL database engineer, blockchain developer, Solidity smart-contract engineer, security engineer, UI/UX designer, and QA engineer.
+
+Build a complete, integrated, hackathon-level application named:
+
+**FinGuard – TrustFlow**
+*Transparent and Verifiable Cross-Border Payment Tracking for Freelancers.*
+
+Do not build only a landing page, static dashboard, UI prototype, or collection of disconnected screens.
+
+Generate the actual application source code, frontend, backend, REST APIs, PostgreSQL integration, authentication, smart contracts, blockchain integration, automated tests, and documentation.
+
+The result must be suitable for a student hackathon demonstration and straightforward for a beginner to run on Windows.
+
+IMPORTANT EXECUTION RULES:
+
+1. Inspect the available development environment and project files before modifying anything.
+2. Create a consistent architecture for the entire application.
+3. Generate actual implementation files instead of returning only code snippets or explanations.
+4. Implement working features, not decorative buttons or fake API responses.
+5. Use the exact technology stack specified below.
+6. Never replace PostgreSQL with Firebase, MongoDB, or localStorage.
+7. Never introduce unnecessary frameworks or additional infrastructure.
+8. If the environment cannot implement every component in one generation, continue in organized stages without discarding existing work.
+9. Preserve working code when modifying or debugging the application.
+10. At the end, provide the exact commands required to install, configure, run, and test the project.
+
+==================================================
+2. PROJECT OBJECTIVE
+====================
+
+FinGuard – TrustFlow addresses common transparency problems in cross-border payments experienced by Indian freelancers receiving payments from international clients.
+
+Problems to address:
+
+* Unclear transaction fees.
+* Uncertain currency conversion rates.
+* Difficulty understanding the final recipient amount.
+* Lack of transparent transaction tracking.
+* Difficulty verifying transaction records.
+* Limited visibility into payment status and transaction history.
+
+The application should allow users to create payment requests, obtain fee estimates, review currency conversion assumptions, track transaction status, and verify relevant blockchain records.
+
+This is a fintech demonstration application.
+
+It must not falsely claim to perform actual international bank transfers.
+
+Unless an authorized real payment provider is separately integrated, all payment settlement must be clearly identified as simulated.
+
+Blockchain verification and simulated payment settlement must be treated as separate operations.
+
+==================================================
+3. EXACT TECHNOLOGY STACK
+=========================
+
+Use the following stack throughout the project.
+
+AI-assisted development:
+
+* Google AI Studio.
+
+Frontend:
+
+* React.
+* TypeScript.
+* Vite.
+
+UI styling:
+
+* Tailwind CSS.
+
+Icons and charts:
+
+* Lucide React.
+* Recharts.
+
+Backend:
+
+* Node.js.
+* Express.js.
+* TypeScript.
+
+API:
+
+* REST API.
+* JSON request and response formats.
+
+Database:
+
+* PostgreSQL.
+
+Database driver:
+
+* pg.
+
+Database migrations:
+
+* Version-controlled SQL migration files.
+
+Authentication:
+
+* JWT.
+* bcrypt.
+
+Blockchain:
+
+* Solidity.
+
+Smart contract development:
+
+* Hardhat.
+
+Blockchain network:
+
+* Polygon Amoy Testnet.
+
+Blockchain integration:
+
+* ethers.js.
+
+Wallet:
+
+* MetaMask.
+
+Version control:
+
+* Git.
+* GitHub.
+
+Frontend deployment:
+
+* Vercel.
+
+Backend deployment:
+
+* Render.
+
+Database hosting:
+
+* Neon PostgreSQL or Supabase PostgreSQL.
+
+Use compatible, mutually consistent package versions.
+
+Do not introduce Prisma, MongoDB, Firebase, Next.js, or another database abstraction framework unless a genuine technical blocker makes the requested stack impossible.
+
+Use npm and provide appropriate package.json scripts.
+
+==================================================
+4. APPLICATION ARCHITECTURE
+===========================
+
+Create a maintainable monorepo.
+
+Recommended structure:
+
+finguard-trustflow/
+|
+|-- frontend/
+|   |-- public/
+|   |-- src/
+|   |   |-- components/
+|   |   |-- pages/
+|   |   |-- layouts/
+|   |   |-- hooks/
+|   |   |-- services/
+|   |   |-- contexts/
+|   |   |-- types/
+|   |   |-- utils/
+|   |   |-- App.tsx
+|   |   |-- main.tsx
+|   |-- package.json
+|   |-- vite.config.ts
+|   |-- tailwind.config.ts
+|   |-- .env.example
+|
+|-- backend/
+|   |-- src/
+|   |   |-- config/
+|   |   |-- controllers/
+|   |   |-- routes/
+|   |   |-- services/
+|   |   |-- middleware/
+|   |   |-- repositories/
+|   |   |-- validators/
+|   |   |-- utils/
+|   |   |-- app.ts
+|   |   |-- server.ts
+|   |-- migrations/
+|   |-- seeds/
+|   |-- tests/
+|   |-- package.json
+|   |-- tsconfig.json
+|   |-- .env.example
+|
+|-- blockchain/
+|   |-- contracts/
+|   |-- scripts/
+|   |-- test/
+|   |-- hardhat.config.ts
+|   |-- package.json
+|   |-- .env.example
+|
+|-- docs/
+|   |-- architecture.md
+|   |-- api.md
+|   |-- database.md
+|   |-- blockchain.md
+|   |-- deployment.md
+|
+|-- .gitignore
+|-- README.md
+
+Adjust the structure when necessary, but maintain clear separation between frontend, backend, database, and blockchain code.
+
+Do not place backend secrets in the frontend directory.
+
+Keep smart-contract source code separate from the Express backend.
+
+==================================================
+5. FRONTEND DESIGN AND USER EXPERIENCE
+======================================
+
+Create a premium, professional fintech interface.
+
+Visual direction:
+
+* Dark navy as the primary brand color.
+* White and subtle neutral backgrounds.
+* Teal or emerald accents.
+* Clean typography.
+* Professional financial dashboard cards.
+* Subtle borders and shadows.
+* Consistent spacing.
+* Responsive layouts.
+* Clear status badges.
+* Accessible forms and navigation.
+* Smooth, restrained animations.
+
+Use Tailwind CSS and Lucide React consistently.
+
+Use Recharts for appropriate dashboard analytics.
+
+Do not create a generic template that looks unfinished.
+
+Create a responsive sidebar dashboard for desktop and a suitable navigation menu for mobile.
+
+Include loading indicators, empty states, success messages, validation errors, and recoverable error states.
+
+Never leave buttons without functionality.
+
+Every form must validate its input and display useful feedback.
+
+Build the following pages:
+
+1. Public landing page.
+2. Registration page.
+3. Login page.
+4. Authenticated dashboard.
+5. Create payment request page.
+6. Fee and exchange-rate quote page.
+7. Payment confirmation page.
+8. Transaction history page.
+9. Transaction details page.
+10. Blockchain verification page.
+11. Profile and account settings page.
+12. Help and system status page.
+
+Create reusable components for navigation, cards, forms, tables, modals, notifications, loading states, and status badges.
+
+==================================================
+6. LANDING PAGE
+===============
+
+Create a polished landing page explaining the product.
+
+Include:
+
+* FinGuard – TrustFlow branding.
+* A clear headline about transparent cross-border payments.
+* A concise explanation of the problem.
+* How the application works.
+* Key features.
+* A visual transaction-tracking preview.
+* A blockchain transparency explanation.
+* A prominent registration call to action.
+* Login and registration navigation.
+* A footer containing appropriate disclaimers.
+
+Do not display unsupported claims such as guaranteed low fees, instant international transfers, or bank-grade security.
+
+Clearly state that the hackathon prototype demonstrates payment tracking and transparency rather than independently executing real international transfers.
+
+==================================================
+7. AUTHENTICATION AND USER MANAGEMENT
+=====================================
+
+Implement actual backend authentication using PostgreSQL, bcrypt, and JWT.
+
+Required features:
+
+* User registration.
+* User login.
+* Logout.
+* Current-user endpoint.
+* Password hashing.
+* Token validation.
+* Protected frontend routes.
+* Protected backend routes.
+* User profile retrieval and updates.
+* Appropriate token expiration.
+* Role-based authorization where required.
+
+Never store plaintext passwords.
+
+Use strong password validation.
+
+Validate email addresses on the backend.
+
+Use generic authentication error messages where appropriate.
+
+Protect sensitive endpoints with authentication middleware.
+
+For browser authentication, prefer secure, HttpOnly cookies with appropriate SameSite settings and HTTPS in production. Configure cookie security correctly for the selected deployment architecture.
+
+Implement CSRF protection when required by the chosen cookie-based authentication design.
+
+If a different JWT transport is necessary, document the security implications and do not store long-lived authentication tokens in localStorage.
+
+Never put JWT signing secrets in frontend environment variables.
+
+Never grant administrative access automatically to newly registered users.
+
+Create a documented, controlled development process for provisioning privileged accounts.
+
+Ensure users cannot access another user's private data by changing a URL, identifier, or API request.
+
+==================================================
+8. POSTGRESQL DATABASE DESIGN
+=============================
+
+Use PostgreSQL as the authoritative database for application records.
+
+Use the pg library with a connection pool.
+
+Create SQL migration files with an ordered migration process.
+
+Create normalized tables for:
+
+1. users
+2. payment_requests
+3. payment_quotes
+4. exchange_rate_snapshots
+5. transactions
+6. transaction_status_history
+7. blockchain_records
+8. audit_logs
+
+Add other tables only when genuinely required.
+
+Database requirements:
+
+* Use UUID primary keys where appropriate.
+* Define foreign-key relationships.
+* Add appropriate unique constraints.
+* Add indexes for common queries.
+* Include created_at and updated_at timestamps.
+* Use explicit currency codes.
+* Store financial amounts using PostgreSQL NUMERIC or suitable integer minor units.
+* Never use floating-point arithmetic for financial calculations.
+* Use database transactions for operations that must succeed or fail together.
+* Use parameterized SQL queries.
+* Validate database inputs.
+* Enforce ownership relationships.
+* Handle migration failures safely.
+* Document database initialization.
+
+Create the necessary migration files to establish all tables and constraints.
+
+Create a safe development seed script using fictional users and transactions.
+
+Do not automatically insert demo users or privileged accounts into a production database.
+
+Do not depend on browser storage for persistent application records.
+
+Do not require the user to manually create every table in a database GUI.
+
+Provide a command that runs database migrations.
+
+==================================================
+9. PAYMENT REQUEST WORKFLOW
+===========================
+
+Implement a functional payment request system.
+
+A user should be able to:
+
+1. Open the payment request page.
+2. Enter the requested amount.
+3. Select the source currency.
+4. Select the destination currency.
+5. Enter a client reference or description.
+6. Request a fee quote.
+7. Review the quote.
+8. Confirm the request.
+9. View the resulting record.
+10. Track the request through its lifecycle.
+
+For the initial demonstration, support USD as the source currency and INR as the destination currency.
+
+Structure the implementation so additional supported currencies can be introduced later.
+
+Validate all amounts on the backend.
+
+Reject zero, negative, malformed, and unreasonably large amounts.
+
+Use decimal-safe arithmetic.
+
+Do not trust financial values calculated by the browser.
+
+==================================================
+10. FEE AND EXCHANGE-RATE CALCULATOR
+====================================
+
+Implement a transparent fee calculation service.
+
+Display:
+
+* Requested amount.
+* Source currency.
+* Destination currency.
+* Exchange rate.
+* Conversion fee, where applicable.
+* Service fee.
+* Other configured charges.
+* Total estimated fees.
+* Estimated recipient amount.
+* Quote creation time.
+* Quote expiration time, if applicable.
+
+Use an explicitly documented calculation formula.
+
+For example:
+
+gross_destination_amount =
+source_amount × configured_exchange_rate
+
+estimated_recipient_amount =
+gross_destination_amount - applicable_destination_fees
+
+Define precisely how source-currency and destination-currency fees are handled. Do not subtract fees expressed in different currencies without converting them correctly.
+
+Use decimal-safe calculations and consistent rounding rules.
+
+Persist each quote and its assumptions in PostgreSQL.
+
+If no external exchange-rate provider is configured, use an explicitly labeled demonstration rate.
+
+Never describe a hardcoded rate as live market data.
+
+Keep exchange-rate provider integration separate from the fee calculation logic.
+
+Clearly distinguish estimated fees from actual provider fees.
+
+==================================================
+11. TRANSACTION LIFECYCLE
+=========================
+
+Implement a defined transaction state machine.
+
+Suggested states:
+
+* DRAFT
+* QUOTED
+* PENDING
+* PROCESSING
+* COMPLETED
+* FAILED
+* CANCELLED
+
+Document valid state transitions.
+
+Enforce them on the backend.
+
+Prevent unauthorized users from changing transaction states arbitrarily.
+
+Record status history with timestamps and appropriate actor information.
+
+For the hackathon demonstration, allow authorized development operations to advance simulated transactions.
+
+Do not let ordinary users mark their own transfers as completed.
+
+Clearly identify simulated settlement events.
+
+Display:
+
+* Transaction reference.
+* Requested amount.
+* Source and destination currencies.
+* Estimated fees.
+* Estimated recipient amount.
+* Current status.
+* Creation timestamp.
+* Latest status update.
+* Available blockchain verification information.
+
+Use database transactions when updating the current status and recording status history.
+
+==================================================
+12. SOLIDITY SMART CONTRACT
+===========================
+
+Implement a small, understandable smart contract for verifiable payment references.
+
+Use Solidity and a compatible Hardhat version.
+
+The contract should support:
+
+* Recording a unique payment reference.
+* Recording a hash of the relevant transaction metadata.
+* Emitting an event when a record is created.
+* Preventing duplicate reference registration.
+* Restricting record creation to authorized accounts.
+* Providing a method to retrieve permitted public record information.
+* Providing appropriate access-control tests.
+
+Do not store personally identifiable information, bank details, passwords, secret keys, or confidential financial information on-chain.
+
+Store only the minimum public verification information required by the demonstration.
+
+Do not design the contract to transfer real financial assets.
+
+Do not create a misleading smart contract that pretends to settle international bank transfers.
+
+The contract must clearly represent verifiable references or status attestations, not actual bank settlement.
+
+Provide:
+
+* Solidity contract source.
+* Hardhat configuration.
+* Compilation scripts.
+* Unit tests.
+* Deployment scripts.
+* ABI generation.
+* Deployment documentation.
+* A documented contract address configuration process.
+
+Write tests for duplicate records, unauthorized access, valid record creation, and emitted events.
+
+==================================================
+13. POLYGON AMOY TESTNET INTEGRATION
+====================================
+
+Use Polygon Amoy Testnet for actual blockchain integration.
+
+Use ethers.js for contract interaction.
+
+Provide a backend blockchain service that can:
+
+* Connect to a configured RPC endpoint.
+* Load the deployed contract using its ABI and address.
+* Submit a permitted record transaction.
+* Wait for a transaction receipt.
+* Verify receipt success.
+* Retrieve the transaction hash.
+* Verify the expected contract address.
+* Check the expected chain ID.
+* Read the relevant contract record or event.
+* Return verification results to the frontend.
+
+Use environment variables for:
+
+* RPC URL.
+* Expected chain ID.
+* Contract address.
+* Authorized server-side signing configuration, if needed.
+
+Do not hardcode RPC credentials or private keys.
+
+Never expose server-side private keys to frontend code.
+
+Never request or collect a user's MetaMask seed phrase.
+
+Do not ask users to paste private keys into the website.
+
+Support MetaMask as an optional frontend wallet connection for viewing the connected account and initiating permitted wallet interactions when appropriate.
+
+For a backend-signed contract transaction, use a dedicated test wallet configured only in the backend environment.
+
+If no valid RPC endpoint, funded test wallet, or deployed contract is available, provide a clearly labeled local-development mode and explain what must be configured before Amoy transactions can be submitted.
+
+Do not fabricate a transaction hash or report an unsubmitted transaction as confirmed.
+
+Do not claim that a blockchain transaction has been verified unless the verification process has actually succeeded.
+
+Polygon Amoy is a test network and its tokens have no intended real-money value in this application.
+
+==================================================
+14. BLOCKCHAIN VERIFICATION PAGE
+================================
+
+Create a professional blockchain verification page.
+
+Allow users to view permitted verification details associated with a payment record.
+
+Display:
+
+* Application transaction reference.
+* Blockchain record status.
+* Transaction hash, if available.
+* Network name.
+* Expected chain ID.
+* Contract address.
+* Block number, if confirmed.
+* Confirmation status.
+* Record timestamp.
+* Verification result.
+* A link to the official Polygon Amoy block explorer when a valid transaction hash exists.
+
+The page must distinguish:
+
+* A database record.
+* A simulated payment state.
+* A submitted blockchain transaction.
+* A confirmed blockchain transaction.
+* A verified contract record.
+
+A transaction hash alone is not sufficient proof that the expected payment record was successfully written.
+
+Verify the receipt and relevant contract event or record.
+
+Handle missing transactions, failed receipts, network errors, and invalid hashes gracefully.
+
+Do not fabricate verification results.
+
+==================================================
+15. REST API IMPLEMENTATION
+===========================
+
+Implement and document REST API endpoints.
+
+Authentication:
+
+* POST /api/auth/register
+* POST /api/auth/login
+* POST /api/auth/logout
+* GET /api/auth/me
+
+User:
+
+* GET /api/users/me
+* PATCH /api/users/me
+
+Payment requests:
+
+* POST /api/payment-requests
+* GET /api/payment-requests
+* GET /api/payment-requests/:id
+* POST /api/payment-requests/:id/quote
+* POST /api/payment-requests/:id/confirm
+
+Transactions:
+
+* GET /api/transactions
+* GET /api/transactions/:id
+* GET /api/transactions/:id/history
+
+Blockchain:
+
+* POST /api/blockchain/records
+* GET /api/blockchain/records/:id
+* GET /api/blockchain/verify/:transactionHash
+
+Health:
+
+* GET /api/health
+* GET /api/health/database
+* GET /api/health/blockchain
+
+Add pagination and reasonable limits to list endpoints.
+
+Enforce authentication and resource ownership.
+
+Validate every request body and route parameter.
+
+Use consistent JSON responses and suitable HTTP status codes.
+
+Return sanitized error messages.
+
+Do not expose database credentials, JWT secrets, private keys, SQL statements, or internal stack traces.
+
+Implement basic rate limiting for authentication and other sensitive operations.
+
+Document the APIs using OpenAPI or Swagger.
+
+If an endpoint requires additional parameters or a different HTTP method, document the final implementation accurately.
+
+==================================================
+16. USER DASHBOARD AND ANALYTICS
+================================
+
+Build a dashboard showing data belonging to the authenticated user.
+
+Include:
+
+* Total requested payment volume.
+* Pending requests.
+* Completed simulated transactions.
+* Estimated fees.
+* Recent transactions.
+* Transaction status distribution.
+* Payment activity over time.
+* Quick actions.
+* Recent status updates.
+
+Retrieve statistics from PostgreSQL through backend APIs.
+
+Do not calculate authoritative totals using untrusted client-side data.
+
+Clearly label demo statistics and simulated transactions.
+
+Provide filters for date range, status, and currency where appropriate.
+
+Add pagination to transaction history.
+
+Display appropriate empty states for new users.
+
+==================================================
+17. SECURITY AND RELIABILITY
+============================
+
+Implement:
+
+* bcrypt password hashing.
+* JWT validation.
+* Secure cookie configuration if cookies are used.
+* CSRF protection where applicable.
+* Input validation.
+* Parameterized SQL.
+* Authorization middleware.
+* Ownership checks.
+* Rate limiting.
+* Safe CORS configuration.
+* Appropriate HTTP security headers.
+* Environment-based secret management.
+* Sanitized error responses.
+* Basic audit logging.
+* Request size limits.
+* Safe database connection management.
+* Graceful shutdown.
+* Appropriate timeouts.
+* Safe handling of blockchain RPC failures.
+
+Never put backend secrets into Vite frontend environment variables.
+
+Never commit real .env files.
+
+Never use permissive production CORS settings without justification.
+
+Never use insecure authentication shortcuts.
+
+Never allow the frontend to decide whether a transaction is completed.
+
+Never trust a blockchain hash without verifying the expected network, receipt, and contract record.
+
+Do not claim that the application has passed a security audit.
+
+==================================================
+18. TESTING
+===========
+
+Create automated tests for the main application flows.
+
+Backend tests:
+
+* Successful registration.
+* Duplicate registration.
+* Successful login.
+* Invalid credentials.
+* Authentication enforcement.
+* User ownership checks.
+* Payment request creation.
+* Invalid amounts.
+* Fee calculation.
+* Quote persistence.
+* Transaction state transitions.
+* Pagination.
+* Database error handling.
+
+Blockchain tests:
+
+* Successful reference recording.
+* Duplicate reference rejection.
+* Unauthorized record creation.
+* Correct event emission.
+* Correct record retrieval.
+
+Frontend tests:
+
+* Login form validation.
+* Registration form validation.
+* Payment request form validation.
+* Loading and error states.
+* Transaction status display.
+
+Use compatible testing tools such as Vitest, Supertest, and Hardhat's supported testing framework.
+
+Provide separate test configuration.
+
+Do not require access to real financial services for routine tests.
+
+Use a test database and local blockchain for automated testing where practical.
+
+Run available tests and fix failures when the environment permits.
+
+Never report unexecuted tests as passing.
+
+==================================================
+19. ENVIRONMENT CONFIGURATION
+=============================
+
+Create appropriate .env.example files.
+
+The backend template should include placeholders for:
+
+NODE_ENV
+PORT
+DATABASE_URL
+JWT_SECRET
+JWT_EXPIRES_IN
+FRONTEND_URL
+COOKIE_SETTINGS
+POLYGON_AMOY_RPC_URL
+POLYGON_AMOY_CHAIN_ID
+CONTRACT_ADDRESS
+BLOCKCHAIN_SIGNER_PRIVATE_KEY
+
+Use additional variables only when required.
+
+The frontend template should contain only public configuration, such as the backend API base URL.
+
+Never put JWT secrets, database passwords, or blockchain private keys in frontend environment variables.
+
+The blockchain template should contain only the configuration needed by Hardhat and the contract deployment scripts.
+
+Never commit real credentials.
+
+Document how to generate strong development secrets and how to configure production secrets in the hosting provider's environment settings.
+
+Validate required configuration during server startup and report missing variable names without printing secret values.
+
+==================================================
+20. GITHUB AND DEPLOYMENT
+=========================
+
+Prepare the application for deployment using the following services.
+
+Frontend:
+
+* Vercel.
+
+Backend:
+
+* Render.
+
+PostgreSQL:
+
+* Neon PostgreSQL or Supabase PostgreSQL.
+
+Blockchain:
+
+* Polygon Amoy Testnet.
+
+Provide:
+
+* A suitable .gitignore.
+* Separate frontend and backend build scripts.
+* Production start commands.
+* Environment variable instructions.
+* Database migration instructions.
+* Deployment instructions.
+* API URL configuration.
+* CORS configuration.
+* Health-check configuration.
+* Database connection and SSL configuration where required.
+* Blockchain contract deployment instructions.
+
+Make sure deployment configuration matches the final repository structure.
+
+Do not include credentials in GitHub.
+
+Do not automatically deploy contracts or publish code without the required configuration and explicit authorization.
+
+Do not assume free hosting plans provide permanent availability or unrestricted resources.
+
+==================================================
+21. DOCUMENTATION
+=================
+
+Create a comprehensive README.md containing:
+
+1. Project introduction.
+2. Problem statement.
+3. Proposed solution.
+4. Key features.
+5. Technology stack.
+6. Architecture.
+7. Project directory structure.
+8. Prerequisites.
+9. Windows installation instructions.
+10. PostgreSQL database setup.
+11. Database migration commands.
+12. Development seed commands.
+13. Frontend setup commands.
+14. Backend setup commands.
+15. Local blockchain setup.
+16. Polygon Amoy configuration.
+17. Smart-contract compilation and testing.
+18. Running the application.
+19. API documentation.
+20. Environment variables.
+21. GitHub setup.
+22. Vercel deployment.
+23. Render deployment.
+24. Troubleshooting.
+25. Known limitations.
+26. Hackathon demonstration workflow.
+27. Financial and blockchain disclaimers.
+
+Use beginner-friendly English.
+
+Provide exact PowerShell commands wherever possible.
+
+Clearly identify which terminal and project directory each command requires.
+
+Do not assume the reader already understands database migrations or blockchain deployment.
+
+==================================================
+22. REQUIRED HACKATHON DEMONSTRATION
+====================================
+
+The final application should support the following demonstration.
+
+Step 1:
+A new user registers.
+
+Step 2:
+The user logs in.
+
+Step 3:
+The dashboard loads the user's data from PostgreSQL.
+
+Step 4:
+The user creates a payment request for a fictional US client.
+
+Step 5:
+The backend calculates an estimated fee breakdown using configured exchange-rate assumptions.
+
+Step 6:
+The quote is saved in PostgreSQL.
+
+Step 7:
+The user confirms the demonstration request.
+
+Step 8:
+The transaction appears in transaction history.
+
+Step 9:
+An authorized development workflow advances the simulated transaction status.
+
+Step 10:
+The blockchain integration records a verifiable reference on Polygon Amoy when configured.
+
+Step 11:
+The application verifies the transaction receipt and expected contract record.
+
+Step 12:
+The dashboard displays the transaction and available verification details.
+
+If Polygon Amoy is unavailable or not configured, demonstrate the application in local development mode and clearly label blockchain functionality as unavailable rather than fabricating a real network transaction.
+
+==================================================
+23. FINAL IMPLEMENTATION PRIORITIES
+===================================
+
+Build the project in this order while maintaining the complete architecture:
+
+Priority 1:
+Project structure, configuration, frontend shell, backend server, PostgreSQL connection, and migrations.
+
+Priority 2:
+Authentication, protected APIs, and user ownership enforcement.
+
+Priority 3:
+Payment requests, fee calculation, database persistence, and transaction history.
+
+Priority 4:
+Dashboard analytics and complete UI integration.
+
+Priority 5:
+Solidity smart contract, Hardhat tests, and local blockchain integration.
+
+Priority 6:
+Polygon Amoy integration, MetaMask support, and blockchain verification.
+
+Priority 7:
+Automated tests, documentation, security review, and deployment preparation.
+
+Do not stop after creating the frontend.
+
+Do not generate a fake database implementation.
+
+Do not silently omit the blockchain component.
+
+Do not sacrifice authentication or authorization to make the demo appear functional.
+
+If a feature cannot be fully implemented because credentials, external services, or deployment access are missing, generate the code that can be implemented locally, document the remaining configuration, and continue with the other features.
+
+At the end, report:
+
+* Files created.
+* Features implemented.
+* Database schema and migration files.
+* APIs implemented.
+* Smart contracts implemented.
+* Tests actually executed and their results.
+* External configuration still required.
+* Known limitations.
+* Exact Windows PowerShell commands to install, run, and test the project.
+
+FINAL GOAL:
+
+Deliver a polished, functional, secure-by-design, database-backed FinGuard – TrustFlow hackathon prototype with a real frontend, real backend APIs, PostgreSQL persistence, working authentication, transparent fee estimation, verifiable blockchain references, automated tests, and complete setup documentation.
+
+Prioritize functional correctness, integration, and demonstrability over unnecessary complexity.

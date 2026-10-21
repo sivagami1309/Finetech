@@ -1,0 +1,8 @@
+{
+  "name": "FinGuard – TrustFlow",
+  "description": "Transparent and Verifiable Cross-Border Payment Tracking for Freelancers with real-time fee breakdown, status lifecycle, and Polygon Amoy blockchain verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
